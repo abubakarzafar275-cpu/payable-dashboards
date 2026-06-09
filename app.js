@@ -1,3 +1,40 @@
+// =========================================================================
+// PayableDesk Configuration & URL Query Sync Engine
+// =========================================================================
+const CONFIG = {
+  // Enter your deployed Google Apps Script URL here so that any user opening the dashboard gets live data automatically.
+  // Example: 'https://script.google.com/macros/s/AKfycb...exec'
+  defaultSheetsUrl: '', 
+  autoSyncDefault: true
+};
+
+// Automatically detects and saves the Google Sheet URL if shared in the link.
+(function detectQueryUrl() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sheetUrlParam = urlParams.get('sheetUrl') || urlParams.get('url') || urlParams.get('sheet');
+    if (sheetUrlParam && sheetUrlParam.includes('script.google.com')) {
+      localStorage.setItem('imarat-sheets-url', sheetUrlParam.trim());
+      localStorage.setItem('imarat-sheets-auto', 'true');
+      // Clean up URL parameter in address bar without reloading
+      const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    }
+  } catch(e) { console.warn('Query check failed:', e); }
+})();
+
+function getSheetsUrl() {
+  return localStorage.getItem('imarat-sheets-url') || CONFIG.defaultSheetsUrl || '';
+}
+
+function isAutoSyncEnabled() {
+  const saved = localStorage.getItem('imarat-sheets-auto');
+  if (saved !== null) {
+    return saved === 'true';
+  }
+  return CONFIG.autoSyncDefault;
+}
+
 // Accounts Payable Dashboard Application State
 const STATE = {
   theme: localStorage.getItem('ap-dashboard-theme') || 'dark',
@@ -1307,11 +1344,20 @@ document.getElementById('sheet-settings-btn').addEventListener('click', () => {
     document.getElementById('settings-modal-overlay').classList.remove('active')));
 
 function openSettingsModal() {
-  // Pre-fill saved URL if exists
+  // Pre-fill saved URL if exists, or show default URL as placeholder
   const savedUrl = localStorage.getItem('imarat-sheets-url') || '';
-  document.getElementById('sheets-url-input').value = savedUrl;
+  const input = document.getElementById('sheets-url-input');
+  input.value = savedUrl;
+  if (!savedUrl && CONFIG.defaultSheetsUrl) {
+    input.placeholder = CONFIG.defaultSheetsUrl + " (Using Default)";
+  } else {
+    input.placeholder = "https://script.google.com/macros/s/YOUR_ID_HERE/exec";
+  }
+  
+  const savedAuto = localStorage.getItem('imarat-sheets-auto');
   document.getElementById('auto-sync-toggle').checked =
-    localStorage.getItem('imarat-sheets-auto') === 'true';
+    savedAuto !== null ? savedAuto === 'true' : CONFIG.autoSyncDefault;
+    
   document.getElementById('connection-status').style.display = 'none';
   document.getElementById('settings-modal-overlay').classList.add('active');
   feather.replace();
@@ -1373,7 +1419,7 @@ document.getElementById('test-connection-btn').addEventListener('click', () => {
 
 // ── Sync Sheets header button ──────────────────────────────────────────────
 document.getElementById('sync-sheets-btn').addEventListener('click', () => {
-  const url = localStorage.getItem('imarat-sheets-url');
+  const url = getSheetsUrl();
   if (!url) {
     showToast('No Google Sheet connected yet. Click the ⚙️ Settings button first.', 'warning');
     openSettingsModal();
@@ -1413,7 +1459,7 @@ function callSheetsAPI(url, onSuccess, onError) {
 
 // ── Main Sync Function ─────────────────────────────────────────────────────
 function syncFromGoogleSheets() {
-  const url = localStorage.getItem('imarat-sheets-url');
+  const url = getSheetsUrl();
   if (!url) return;
 
   // Animate the sync button
@@ -1484,8 +1530,8 @@ function syncFromGoogleSheets() {
 
 // ── Auto-sync on page load if enabled ─────────────────────────────────────
 (function autoSyncOnLoad() {
-  const shouldAutoSync = localStorage.getItem('imarat-sheets-auto') === 'true';
-  const url            = localStorage.getItem('imarat-sheets-url');
+  const shouldAutoSync = isAutoSyncEnabled();
+  const url            = getSheetsUrl();
   if (shouldAutoSync && url) {
     // Small delay so the UI renders first
     setTimeout(syncFromGoogleSheets, 1500);
