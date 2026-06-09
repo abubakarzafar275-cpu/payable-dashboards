@@ -4,7 +4,7 @@
 const CONFIG = {
   // Enter your deployed Google Apps Script URL here so that any user opening the dashboard gets live data automatically.
   // Example: 'https://script.google.com/macros/s/AKfycb...exec'
-  defaultSheetsUrl: '', 
+  defaultSheetsUrl: 'https://script.google.com/macros/s/AKfycbx_MnEIbq5lvZ3E2yV0v2LOEuianY45kEdb_BdWF__vNEa6ToZVCOYuzx9pyf_dndpt/exec', 
   autoSyncDefault: true
 };
 
