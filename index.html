@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PayableDesk | Imarat Group AP Control Center</title>
+  <meta name="description" content="Accounts Payable dashboard for Imarat Group — Open PO reports, PO compliance, daily log, and Executive Summary.">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- iOS Home Screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PayableDesk">
+  <link rel="apple-touch-icon" href="icon-512.png">
+  <!-- Theme color for browser chrome -->
+  <meta name="theme-color" content="#0d3b1e">
+  <link rel="stylesheet" href="style.css">
+  <!-- Feather Icons — local copy (works offline) -->
+  <script src="feather.min.js"></script>
+  <!-- Chart.js — local copy (works offline) -->
+  <script src="chart.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Navigation Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo" style="flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 20px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <!-- Imarat Group Logo Icon -->
+        <div style="width: 48px; height: 48px; border-radius: 10px; overflow:hidden; border: 1px solid rgba(212,163,69,0.35); box-shadow: 0 0 14px rgba(212,163,69,0.2); flex-shrink:0;">
+          <img src="icon-512.png" alt="Imarat Logo" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div>
+          <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; background: linear-gradient(135deg, #d4a345, #f0c96e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1;">Imarat</div>
+          <div style="font-size: 0.62rem; color: #b8985a; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-top: 1px;">Group of Companies</div>
+        </div>
+      </div>
+      <div style="font-size: 0.7rem; color: #b8985a; padding: 3px 10px; background: rgba(212,163,69,0.08); border-radius: 20px; border: 1px solid rgba(212,163,69,0.2); margin-top: 2px; font-weight: 600; letter-spacing: 0.04em;">📊 Payable Department</div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-target="page-open-po" id="nav-open-po">
+        <i data-feather="file-text"></i>
+        <span>Open PO Report</span>
+      </a>
+      <a class="nav-item" data-target="page-po-vs-non-po" id="nav-po-vs-non-po">
+        <i data-feather="pie-chart"></i>
+        <span>PO vs Non-PO Cases</span>
+      </a>
+      <a class="nav-item" data-target="page-daily-log" id="nav-daily-log">
+        <i data-feather="activity"></i>
+        <span>Daily Activity Log</span>
+      </a>
+      <a class="nav-item" data-target="page-coa-wise" id="nav-coa-wise">
+        <i data-feather="bar-chart-2"></i>
+        <span>Executive Summary Report</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-avatar" style="background: linear-gradient(135deg, #059669 0%, #0ea5e9 100%); font-size:0.8rem;">MA</div>
+      <div class="user-info">
+        <span class="user-name">Muhammad Abubakar</span>
+        <span class="user-role">AP Supervisor</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main View Area -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title-section">
+        <h1 id="current-page-title">Open PO Report</h1>
+        <p id="current-page-subtitle">Track and analyze open purchase orders and vendor encumbrances</p>
+      </div>
+      <div class="header-actions">
+        <div id="header-date" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Wednesday, June 3, 2026</div>
+        <!-- Google Sheets Sync Button -->
+        <button class="btn-secondary" id="sync-sheets-btn" title="Sync data from Google Sheets">
+          <i data-feather="refresh-cw"></i><span>Sync Sheets</span>
+        </button>
+        <button class="theme-switch-btn" id="sheet-settings-btn" title="Google Sheets Settings">
+          <i data-feather="settings"></i>
+        </button>
+        <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <i data-feather="sun" id="theme-icon-light" style="display: none;"></i>
+          <i data-feather="moon" id="theme-icon-dark"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Pages Container -->
+    <main class="content-body">
+
+      <!-- ==================== DASHBOARD 1: OPEN PO REPORT ==================== -->
+      <section id="page-open-po" class="dashboard-page active">
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--card-accent-color: var(--accent-secondary); --card-accent-color-rgb: var(--accent-secondary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Total Open PO Value</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="trending-up"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="po-kpi-value">PKR 684,800</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive"><i data-feather="arrow-up" style="width:14px;height:14px;"></i> 12.4%</span>
+              <span>vs last month</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-primary); --card-accent-color-rgb: var(--accent-primary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Total Open POs</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="folder-open"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="po-kpi-count">48</div>
+            <div class="kpi-footer">
+              <span>9 added this week</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-danger); --card-accent-color-rgb: var(--accent-danger-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Overdue Deliveries</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="alert-circle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="po-kpi-overdue">5</div>
+            <div class="kpi-footer">
+              <span style="color: var(--accent-danger);">Action Required</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-purple); --card-accent-color-rgb: var(--accent-purple-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Active PO Vendors</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="users"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="po-kpi-vendors">18</div>
+            <div class="kpi-footer">
+              <span>Primary suppliers</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PO Visualizations -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Purchase Order Aging</h3>
+                <span class="chart-subtitle">Value based breakdown of open POs by aging bracket</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="po-aging-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Top Vendors by PO Commitment</h3>
+                <span class="chart-subtitle">Allocation of encumbered funds across suppliers</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="po-vendor-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- PO Interactive Data Table -->
+        <div class="data-section-card">
+          <div class="table-toolbar">
+            <h3 class="toolbar-title">Active Purchase Orders</h3>
+            <div class="toolbar-controls">
+              <div class="search-wrapper">
+                <i data-feather="search" class="search-icon"></i>
+                <input type="text" class="search-input" id="po-search" placeholder="Search PO#, Vendor...">
+              </div>
+              <select class="select-filter" id="po-status-filter">
+                <option value="all">All Statuses</option>
+                <option value="open">Open</option>
+                <option value="partially invoiced">Partially Invoiced</option>
+                <option value="overdue">Overdue</option>
+              </select>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">From</label>
+                <input type="date" class="select-filter" id="po-date-from" style="padding:9px 10px; cursor:pointer;">
+                <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">To</label>
+                <input type="date" class="select-filter" id="po-date-to" style="padding:9px 10px; cursor:pointer;">
+              </div>
+              <button class="btn-secondary" onclick="exportCSV('po')">
+                <i data-feather="download"></i><span>Export CSV</span>
+              </button>
+              <button class="btn-primary" id="open-add-po-modal-btn">
+                <i data-feather="plus"></i><span>Add New PO</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="custom-table" id="po-table">
+              <thead>
+                <tr>
+                  <th>PO Number</th>
+                  <th>Vendor</th>
+                  <th>PO Date</th>
+                  <th>Expected Delivery</th>
+                  <th>Total Value</th>
+                  <th>Invoiced Value</th>
+                  <th>Remaining Bal.</th>
+                  <th>Fulfillment</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="po-table-body">
+                <!-- Dynamically loaded in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==================== DASHBOARD 2: PO VS NON-PO CASES ==================== -->
+      <section id="page-po-vs-non-po" class="dashboard-page">
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--card-accent-color: var(--accent-primary); --card-accent-color-rgb: var(--accent-primary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">PO Compliance Rate</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="check-square"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="comp-kpi-rate">78.4%</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive"><i data-feather="arrow-up" style="width:14px;height:14px;"></i> 2.1%</span>
+              <span>vs target (80.0%)</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-secondary); --card-accent-color-rgb: var(--accent-secondary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Total Invoices Logged</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="file-text"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="comp-kpi-total">240</div>
+            <div class="kpi-footer">
+              <span>Past 30 days</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-purple); --card-accent-color-rgb: var(--accent-purple-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">PO Invoice Spend</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="shield"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="comp-kpi-po-spend">PKR 842,000</div>
+            <div class="kpi-footer">
+              <span>Pre-authorized expenditure</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-warning); --card-accent-color-rgb: var(--accent-warning-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Non-PO Invoice Spend</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="help-circle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="comp-kpi-non-spend">PKR 231,500</div>
+            <div class="kpi-footer">
+              <span style="color: var(--accent-warning);">Requires manual coding</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split layout for workflow interaction vs charts -->
+        <div class="layout-split">
+          <!-- Left side: Non-PO Manual Coding Workflow Queue -->
+          <div class="data-section-card">
+            <div class="table-toolbar">
+              <h3 class="toolbar-title">Non-PO GL Allocation Queue</h3>
+              <div class="toolbar-controls">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">From</label>
+                  <input type="date" class="select-filter" id="comp-date-from" style="padding:9px 10px; cursor:pointer;">
+                  <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">To</label>
+                  <input type="date" class="select-filter" id="comp-date-to" style="padding:9px 10px; cursor:pointer;">
+                </div>
+                <button class="btn-secondary" onclick="exportCSV('npo')">
+                  <i data-feather="download"></i><span>Export CSV</span>
+                </button>
+                <button class="btn-primary" id="open-add-npo-modal-btn">
+                  <i data-feather="plus"></i><span>Add Invoice</span>
+                </button>
+              </div>
+            </div>
+            <div style="padding: 24px;">
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+                Non-PO invoices require General Ledger (GL) account assignment and authorization codes. Process them below:
+              </p>
+              <div class="coding-queue-list" id="non-po-queue">
+                <!-- Dynamically populated in app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Compliance visual graphs -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div class="chart-card" style="min-height: 280px;">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">Spend Breakdown</h3>
+                  <span class="chart-subtitle">PO authorized vs Non-PO billing</span>
+                </div>
+              </div>
+              <div class="chart-canvas-container">
+                <canvas id="compliance-pie-chart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card" style="min-height: 280px;">
+              <div class="chart-header">
+                <div>
+                  <h3 class="chart-title">Invoice Type Volume Trend</h3>
+                  <span class="chart-subtitle">Weekly comparison of PO vs Non-PO invoice counts</span>
+                </div>
+              </div>
+              <div class="chart-canvas-container">
+                <canvas id="compliance-trend-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==================== DASHBOARD 3: DAILY LOG ==================== -->
+      <section id="page-daily-log" class="dashboard-page">
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--card-accent-color: var(--accent-primary); --card-accent-color-rgb: var(--accent-primary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Invoices Processed Today</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="check-circle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="log-kpi-processed">18</div>
+            <div class="kpi-footer">
+              <span>Goal: 25 Invoices/day</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-secondary); --card-accent-color-rgb: var(--accent-secondary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Invoices Received Today</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="inbox"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="log-kpi-received">24</div>
+            <div class="kpi-footer">
+              <span>OCR pipeline ingest</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-danger); --card-accent-color-rgb: var(--accent-danger-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Invoices On Hold</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="pause-circle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="log-kpi-hold">2</div>
+            <div class="kpi-footer">
+              <span>Duplicates / discrepancies</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-purple); --card-accent-color-rgb: var(--accent-purple-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Avg Processing Speed</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="clock"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="log-kpi-speed">3.8m</div>
+            <div class="kpi-footer">
+              <span>Per invoice cycle</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split Log Layout -->
+        <div class="layout-split">
+          <!-- Left side: Core Daily Table -->
+          <div class="data-section-card">
+            <div class="table-toolbar">
+              <h3 class="toolbar-title">Daily Activity Ledger</h3>
+              <div class="toolbar-controls">
+                <div class="search-wrapper">
+                  <i data-feather="search" class="search-icon"></i>
+                  <input type="text" class="search-input" id="log-search" placeholder="Search Invoice#, Vendor...">
+                </div>
+                <select class="select-filter" id="log-status-filter">
+                  <option value="all">All Statuses</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending approval">Pending Approval</option>
+                  <option value="duplicate hold">On Hold</option>
+                </select>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">Date</label>
+                  <input type="date" class="select-filter" id="log-date-filter" style="padding:9px 10px; cursor:pointer;">
+                </div>
+                <button class="btn-secondary" onclick="exportCSV('log')">
+                  <i data-feather="download"></i><span>Export CSV</span>
+                </button>
+                <button class="btn-secondary" data-open-import="log">
+                  <i data-feather="upload"></i><span>Import CSV</span>
+                </button>
+                <button class="btn-primary" id="open-invoice-modal-btn">
+                  <i data-feather="plus"></i>
+                  <span>Log Invoice</span>
+                </button>
+              </div>
+            </div>
+            <div class="table-container">
+              <table class="custom-table" id="log-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Invoice ID</th>
+                    <th>Vendor</th>
+                    <th>Amount</th>
+                    <th>Reference</th>
+                    <th>Processor</th>
+                    <th>3-Way Match</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="log-table-body">
+                  <!-- Dynamically populated in app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right side: Workload chart and metrics -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Team Throughput Today</h3>
+                <span class="chart-subtitle">Number of invoices processed by analyst</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="processor-workload-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==================== DASHBOARD 4: DAILY PROCESSING REPORT COA-WISE ==================== -->
+      <section id="page-coa-wise" class="dashboard-page">
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--card-accent-color: var(--accent-secondary); --card-accent-color-rgb: var(--accent-secondary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Total Allocated Amount</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="trending-up"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="coa-kpi-spend">$184,250</div>
+            <div class="kpi-footer">
+              <span>Sum of processed invoices</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-purple); --card-accent-color-rgb: var(--accent-purple-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Active COA Codes</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="grid"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="coa-kpi-count">12</div>
+            <div class="kpi-footer">
+              <span>Accounts used today</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-primary); --card-accent-color-rgb: var(--accent-primary-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Accounts On-Budget</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="check-circle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="coa-kpi-budget-pass">10</div>
+            <div class="kpi-footer">
+              <span>Spend within daily allocation</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--card-accent-color: var(--accent-danger); --card-accent-color-rgb: var(--accent-danger-rgb);">
+            <div class="kpi-header">
+              <span class="kpi-title">Budget Exceptions</span>
+              <div class="kpi-icon-wrapper">
+                <i data-feather="alert-triangle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="coa-kpi-budget-fail">2</div>
+            <div class="kpi-footer">
+              <span style="color: var(--accent-danger);">Requires operational audit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual charts -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Expense Allocation by COA Group</h3>
+                <span class="chart-subtitle">Today's total processing distributed by Chart of Accounts</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="coa-expense-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Budget vs Actual Spend</h3>
+                <span class="chart-subtitle">Comparison of daily processed value vs budget allocations</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="coa-budget-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- COA Detailed Report table -->
+        <div class="data-section-card">
+          <div class="table-toolbar">
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <h3 class="toolbar-title">Executive Summary — COA Ledger Allocation</h3>
+              <span id="coa-period-label" style="display:none; font-size:0.75rem; font-weight:600; padding:4px 10px; background:rgba(var(--accent-secondary-rgb),0.1); color:var(--accent-secondary); border-radius:20px; border:1px solid rgba(var(--accent-secondary-rgb),0.2);"></span>
+            </div>
+            <div class="toolbar-controls">
+              <select class="select-filter" id="coa-group-filter">
+                <option value="all">All COA Types</option>
+                <option value="direct">Direct Materials / Cost of Sales</option>
+                <option value="indirect">Indirect Operating Expenses</option>
+              </select>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">From</label>
+                <input type="date" class="select-filter" id="coa-date-from" style="padding:9px 10px; cursor:pointer;">
+                <label style="font-size:0.78rem; color:var(--text-muted); font-weight:600; white-space:nowrap;">To</label>
+                <input type="date" class="select-filter" id="coa-date-to" style="padding:9px 10px; cursor:pointer;">
+              </div>
+              <button class="btn-secondary" onclick="exportCSV('coa')">
+                <i data-feather="download"></i><span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="custom-table" id="coa-table">
+              <thead>
+                <tr>
+                  <th>COA Code</th>
+                  <th>Account Description</th>
+                  <th>Category</th>
+                  <th>Daily Spend</th>
+                  <th>Daily Budget Limit</th>
+                  <th>Remaining Budget</th>
+                  <th>Utilization</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="coa-table-body">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== NEW INVOICE MODAL ==================== -->
+  <div class="modal-overlay" id="invoice-modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Log Processed Invoice</h3>
+        <button class="modal-close-btn" id="close-invoice-modal-btn">
+          <i data-feather="x"></i>
+        </button>
+      </div>
+      <form id="invoice-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="modal-inv-id">Invoice Number</label>
+            <input type="text" class="form-input" id="modal-inv-id" placeholder="INV-2026-XXXX" required>
+          </div>
+          <div class="form-group">
+            <label for="modal-vendor">Vendor Name</label>
+            <input type="text" class="form-input" id="modal-vendor" placeholder="e.g., Global Logistics LLC" required>
+          </div>
+          <div class="form-group">
+            <label for="modal-amount">Invoice Amount ($)</label>
+            <input type="number" class="form-input" id="modal-amount" placeholder="0.00" step="0.01" min="1" required>
+          </div>
+          <div class="form-group">
+            <label for="modal-po-select">PO Reference (Optional)</label>
+            <select class="form-select" id="modal-po-select">
+              <option value="non-po">None (Non-PO Case)</option>
+              <!-- Loaded dynamically with active PO numbers -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="modal-coa">COA Allocation Account</label>
+            <select class="form-select" id="modal-coa" required>
+              <!-- Loaded dynamically from COA accounts -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="modal-processor">Processor Analyst</label>
+            <select class="form-select" id="modal-processor" required>
+              <option value="Saad Ahmad">Saad Ahmad — Manager Payable</option>
+              <option value="Muhammad Abubakar">Muhammad Abubakar — Sr. Finance Executive</option>
+              <option value="Zojaja">Zojaja — Finance Executive</option>
+              <option value="Ambreen">Ambreen — Finance Executive</option>
+              <option value="Yasir">Yasir — Finance Executive</option>
+              <option value="Usman Saleem">Usman Saleem — Document Controller</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-invoice-modal-btn">Cancel</button>
+          <button type="submit" class="btn-primary">
+            <i data-feather="check"></i>
+            <span>Register & Log</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ADD NEW PURCHASE ORDER ===== -->
+  <div class="modal-overlay" id="add-po-modal-overlay">
+    <div class="modal-card" style="max-width:560px;">
+      <div class="modal-header">
+        <div><h2>Add New Purchase Order</h2><p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">Register a new PO into the system</p></div>
+        <button class="modal-close-btn" id="close-add-po-modal-btn"><i data-feather="x"></i></button>
+      </div>
+      <form id="add-po-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="apo-number">PO Number *</label>
+              <input class="form-input" id="apo-number" placeholder="e.g. PO-2026-0055" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apo-vendor">Vendor Name *</label>
+              <input class="form-input" id="apo-vendor" placeholder="Supplier company name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apo-date">PO Date *</label>
+              <input class="form-input" type="date" id="apo-date" required style="color-scheme:dark;">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apo-delivery">Expected Delivery *</label>
+              <input class="form-input" type="date" id="apo-delivery" required style="color-scheme:dark;">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apo-value">Total PO Value (PKR) *</label>
+              <input class="form-input" type="number" id="apo-value" placeholder="e.g. 500000" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="apo-status">Status</label>
+              <select class="form-select" id="apo-status">
+                <option value="open">Open</option>
+                <option value="partially invoiced">Partially Invoiced</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-add-po-btn">Cancel</button>
+          <button type="submit" class="btn-primary"><i data-feather="check"></i><span>Add PO</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ADD NON-PO INVOICE TO QUEUE ===== -->
+  <div class="modal-overlay" id="add-npo-modal-overlay">
+    <div class="modal-card" style="max-width:500px;">
+      <div class="modal-header">
+        <div><h2>Add Non-PO Invoice</h2><p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">Add an invoice without a PO to the coding queue</p></div>
+        <button class="modal-close-btn" id="close-add-npo-modal-btn"><i data-feather="x"></i></button>
+      </div>
+      <form id="add-npo-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="anpo-id">Invoice / Reference ID *</label>
+              <input class="form-input" id="anpo-id" placeholder="e.g. NPO-00105" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anpo-vendor">Vendor Name *</label>
+              <input class="form-input" id="anpo-vendor" placeholder="Vendor / supplier" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anpo-amount">Amount (PKR) *</label>
+              <input class="form-input" type="number" id="anpo-amount" placeholder="e.g. 15000" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anpo-date">Invoice Date *</label>
+              <input class="form-input" type="date" id="anpo-date" required style="color-scheme:dark;">
+            </div>
+            <div class="form-group" style="grid-column:1/-1;">
+              <label class="form-label" for="anpo-coa">Default COA Account *</label>
+              <select class="form-select" id="anpo-coa"></select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-add-npo-btn">Cancel</button>
+          <button type="submit" class="btn-primary"><i data-feather="plus"></i><span>Add to Queue</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: IMPORT CSV / SPREADSHEET LINK ===== -->
+  <div class="modal-overlay" id="import-modal-overlay">
+    <div class="modal-card" style="max-width:540px;">
+      <div class="modal-header">
+        <div><h2>📥 Import Data from CSV</h2><p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">Upload a filled spreadsheet template to update the dashboard</p></div>
+        <button class="modal-close-btn" id="close-import-modal-btn"><i data-feather="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">1. Select Data Type</label>
+          <select class="form-select" id="import-type-select" style="width:100%;">
+            <option value="log">Daily Activity Log (Invoices)</option>
+            <option value="po">Purchase Orders</option>
+            <option value="npo">Non-PO Invoice Queue</option>
+            <option value="coa">COA Accounts</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">2. Download Template &amp; Fill in Excel</label>
+          <button class="btn-secondary" id="dl-template-btn" style="width:100%;justify-content:center;padding:12px;">
+            <i data-feather="file-text"></i><span>Download CSV Template</span>
+          </button>
+        </div>
+        <div class="form-group">
+          <label class="form-label">3. Upload Filled CSV File</label>
+          <input type="file" id="import-file-input" accept=".csv" class="form-input" style="padding:10px;cursor:pointer;">
+        </div>
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(var(--accent-secondary-rgb),0.06);border-radius:8px;border:1px solid rgba(var(--accent-secondary-rgb),0.15);font-size:0.8rem;color:var(--text-secondary);">
+          💡 <strong>Tip:</strong> Open the template in Excel or Google Sheets, fill in your daily data, save as CSV, then upload here. Duplicate records are skipped automatically.
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:space-between;">
+        <button type="button" class="btn-danger" onclick="resetToDefaults()">
+          <i data-feather="rotate-ccw"></i><span>Reset All Data</span>
+        </button>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="btn-secondary" id="cancel-import-btn">Cancel</button>
+          <button type="button" class="btn-primary" id="confirm-import-btn"><i data-feather="upload"></i><span>Import Now</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: GOOGLE SHEETS CONNECTION SETTINGS ===== -->
+  <div class="modal-overlay" id="settings-modal-overlay">
+    <div class="modal-card" style="max-width:620px;">
+      <div class="modal-header">
+        <div>
+          <h2>🔗 Google Sheets Connection</h2>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">Connect your Google Sheet so the dashboard auto-populates with live data</p>
+        </div>
+        <button class="modal-close-btn" id="close-settings-modal-btn"><i data-feather="x"></i></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Step 1 -->
+        <div style="background:rgba(var(--accent-primary-rgb),0.06);border:1px solid rgba(var(--accent-primary-rgb),0.15);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <div style="font-weight:700;font-size:0.9rem;color:var(--accent-primary);margin-bottom:8px;">Step 1 — Set up your Google Sheet</div>
+          <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6;">
+            Your Google Sheet must have <strong>4 tabs</strong> with these exact names:<br>
+            <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">PO_Report</code>&nbsp;
+            <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">Daily_Log</code>&nbsp;
+            <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">NonPO_Queue</code>&nbsp;
+            <code style="background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">COA_Accounts</code>
+          </p>
+          <button class="btn-secondary" style="margin-top:10px;" onclick="exportCSV('po');exportCSV('log');exportCSV('npo');exportCSV('coa');">
+            <i data-feather="download"></i><span>Download All 4 CSV Files (use as starting data)</span>
+          </button>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="background:rgba(var(--accent-secondary-rgb),0.06);border:1px solid rgba(var(--accent-secondary-rgb),0.15);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <div style="font-weight:700;font-size:0.9rem;color:var(--accent-secondary);margin-bottom:8px;">Step 2 — Deploy the Apps Script</div>
+          <ol style="font-size:0.82rem;color:var(--text-secondary);line-height:2;padding-left:20px;">
+            <li>Open your Google Sheet → click <strong>Extensions → Apps Script</strong></li>
+            <li>Delete all existing code in the editor</li>
+            <li>Open the file <strong>google_apps_script.gs</strong> (in your app folder) and copy all its contents</li>
+            <li>Paste it into the Apps Script editor → click <strong>Save</strong> (💾)</li>
+            <li>Click <strong>Deploy → New Deployment</strong></li>
+            <li>Set <em>Execute as:</em> <strong>Me</strong> &nbsp;|&nbsp; <em>Who has access:</em> <strong>Anyone</strong></li>
+            <li>Click <strong>Deploy</strong> → Authorize → Copy the <strong>Web App URL</strong></li>
+          </ol>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="background:rgba(var(--accent-warning-rgb),0.06);border:1px solid rgba(var(--accent-warning-rgb),0.15);border-radius:10px;padding:16px;margin-bottom:4px;">
+          <div style="font-weight:700;font-size:0.9rem;color:var(--accent-warning);margin-bottom:10px;">Step 3 — Paste your Web App URL here</div>
+          <input type="url" id="sheets-url-input" class="form-input" placeholder="https://script.google.com/macros/s/YOUR_ID_HERE/exec"
+            style="width:100%;margin-bottom:10px;" autocomplete="off">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <button class="btn-secondary" id="test-connection-btn">
+              <i data-feather="wifi"></i><span>Test Connection</span>
+            </button>
+            <!-- Save button also here so user never has to scroll -->
+            <button type="button" class="btn-primary" id="save-sync-btn-inline"
+              style="background:linear-gradient(135deg,var(--accent-primary),var(--accent-secondary));">
+              <i data-feather="save"></i><span>Save &amp; Sync Now</span>
+            </button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);margin-bottom:6px;">
+            <input type="checkbox" id="auto-sync-toggle" style="width:16px;height:16px;accent-color:var(--accent-primary);cursor:pointer;">
+            <label for="auto-sync-toggle" style="cursor:pointer;">Auto-sync every time app opens</label>
+          </div>
+          <div id="connection-status" style="margin-top:10px;font-size:0.85rem;font-weight:600;padding:10px 14px;border-radius:8px;display:none;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="cancel-settings-btn">Close</button>
+        <button type="button" class="btn-primary" id="save-sync-btn">
+          <i data-feather="save"></i><span>Save &amp; Sync Now</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== MOBILE BOTTOM NAVIGATION BAR ===== -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <button class="mobile-nav-item active" data-target="page-open-po" id="mob-nav-open-po">
+      <i data-feather="file-text"></i>
+      <span>PO Report</span>
+    </button>
+    <button class="mobile-nav-item" data-target="page-po-vs-non-po" id="mob-nav-po-vs-non-po">
+      <i data-feather="pie-chart"></i>
+      <span>PO vs Non-PO</span>
+    </button>
+    <button class="mobile-nav-item" data-target="page-daily-log" id="mob-nav-daily-log">
+      <i data-feather="activity"></i>
+      <span>Daily Log</span>
+    </button>
+    <button class="mobile-nav-item" data-target="page-coa-wise" id="mob-nav-coa-wise">
+      <i data-feather="bar-chart-2"></i>
+      <span>Executive</span>
+    </button>
+    <button class="mobile-nav-item" id="mob-nav-sync" onclick="syncFromGoogleSheets()">
+      <i data-feather="refresh-cw"></i>
+      <span>Sync</span>
+    </button>
+  </nav>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Initialize Feather Icons immediately -->
+  <script>
+    feather.replace();
+  </script>
+  <!-- Load Main Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

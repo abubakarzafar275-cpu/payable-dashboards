@@ -1,0 +1,16 @@
+{
+  "name": "accounts-payable-dashboards",
+  "version": "1.0.0",
+  "description": "Accounts Payable Dashboards application featuring Open PO, PO vs Non-PO compliance, daily log, and Chart of Accounts processing reports.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y http-server . -p 8080"
+  },
+  "keywords": [
+    "accounts-payable",
+    "dashboard",
+    "chartjs"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
