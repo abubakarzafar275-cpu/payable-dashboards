@@ -1222,6 +1222,16 @@ input[type="date"].select-filter {
   color: var(--accent-danger);
 }
 
+.date-range-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-user-badge {
+  display: none;
+}
+
 /* =========================================================================
    MOBILE BOTTOM NAVIGATION BAR — hidden on desktop
    ========================================================================= */
@@ -1444,7 +1454,7 @@ input[type="date"].select-filter {
     padding: 0;
   }
 
-  .modal-card {
+  .modal-card, .modal-container {
     border-radius: 20px 20px 0 0;
     max-height: 92vh;
     width: 100%;
@@ -1607,9 +1617,35 @@ input[type="date"].select-filter {
     flex-wrap: wrap;
   }
 
-  /* ─── HEADER: mobile compact with logo ─── */
+  /* ─── HEADER: mobile compact with safe area top padding ─── */
   .header {
-    padding: 8px 14px !important;
+    padding-top: calc(14px + env(safe-area-inset-top, 24px)) !important;
+    padding-bottom: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    height: auto !important;
+    align-items: center !important;
+  }
+
+  /* Header button tap targets and styling for mobile compatibility */
+  #sync-sheets-btn,
+  #sheet-settings-btn,
+  #theme-toggle {
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  #sync-sheets-btn svg,
+  #sheet-settings-btn svg,
+  #theme-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
   }
 
   /* Mobile logo in header area (small inline logo) */
@@ -1759,16 +1795,81 @@ input[type="date"].select-filter {
   #add-po-modal-overlay .modal-card,
   #add-npo-modal-overlay .modal-card,
   #import-modal-overlay .modal-card,
-  #invoice-modal-overlay .modal-card,
+  #invoice-modal-overlay .modal-container,
   #settings-modal-overlay .modal-card {
-    max-height: 95vh;
+    max-height: 92vh;
     border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Modal form inputs larger for touch */
+  .setup-guide-details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .mobile-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    width: fit-content;
+  }
+
+  .mobile-user-badge .user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .mobile-user-badge .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .date-range-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+  }
+
+  .date-range-wrapper input[type="date"] {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  /* Modal form inputs larger for touch and prevent iOS zoom on focus */
+  .form-input,
+  .form-select,
+  .search-input,
+  .select-filter,
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
   .form-input,
   .form-select {
-    font-size: 16px !important; /* prevents iOS zoom on focus */
     padding: 14px 16px;
   }
 

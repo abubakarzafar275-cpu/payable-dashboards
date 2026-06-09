@@ -335,12 +335,12 @@ function updateOpenPoDashboard() {
       <tr>
         <td style="font-family: var(--font-heading); font-weight: 600;">${po.poNumber}</td>
         <td>${po.vendor}</td>
-        <td>${po.date}</td>
-        <td>${po.deliveryDate}</td>
-        <td style="font-family: var(--font-heading); font-weight: 500;">${formatCurrency(po.totalValue)}</td>
-        <td style="font-family: var(--font-heading);">${formatCurrency(po.invoicedValue)}</td>
+        <td class="hide-mobile">${po.date}</td>
+        <td class="hide-mobile">${po.deliveryDate}</td>
+        <td class="hide-mobile" style="font-family: var(--font-heading); font-weight: 500;">${formatCurrency(po.totalValue)}</td>
+        <td class="hide-mobile" style="font-family: var(--font-heading);">${formatCurrency(po.invoicedValue)}</td>
         <td style="font-family: var(--font-heading); font-weight: 600; color: var(--accent-secondary);">${formatCurrency(remaining)}</td>
-        <td>
+        <td class="hide-mobile">
           <div class="progress-bar-wrapper">
             <div class="progress-track">
               <div class="progress-fill" style="width: ${fulfillPercent}%"></div>
@@ -516,12 +516,12 @@ function updateDailyLogDashboard() {
 
     return `
       <tr>
-        <td style="color: var(--text-muted); font-size: 0.8rem;">${log.timestamp}</td>
+        <td class="hide-mobile" style="color: var(--text-muted); font-size: 0.8rem;">${log.timestamp}</td>
         <td style="font-family: var(--font-heading); font-weight: 600;">${log.invoiceId}</td>
         <td>${log.vendor}</td>
         <td style="font-family: var(--font-heading); font-weight: 500;">${formatCurrency(log.amount)}</td>
-        <td style="font-size: 0.85rem; color: var(--text-secondary);">${log.poRef}</td>
-        <td>${log.processor}</td>
+        <td class="hide-mobile" style="font-size: 0.85rem; color: var(--text-secondary);">${log.poRef}</td>
+        <td class="hide-mobile">${log.processor}</td>
         <td>
           <div class="match-checkbox-cell">
             ${matchIcon}
@@ -703,13 +703,13 @@ function updateCoaDashboard() {
       <tr>
         <td class="coa-bold-text">${coa.code}</td>
         <td>${coa.name}</td>
-        <td style="text-transform: capitalize; color: var(--text-muted); font-size: 0.8rem;">${coa.category}</td>
+        <td class="hide-mobile" style="text-transform: capitalize; color: var(--text-muted); font-size: 0.8rem;">${coa.category}</td>
         <td class="coa-bold-text">${formatCurrency(coa.spend)}</td>
-        <td>${formatCurrency(coa.budget)}</td>
-        <td style="color: ${remaining >= 0 ? 'var(--text-secondary)' : 'var(--accent-danger)'}; font-weight: 500;">
+        <td class="hide-mobile">${formatCurrency(coa.budget)}</td>
+        <td class="hide-mobile" style="color: ${remaining >= 0 ? 'var(--text-secondary)' : 'var(--accent-danger)'}; font-weight: 500;">
           ${remaining >= 0 ? formatCurrency(remaining) : `-${formatCurrency(Math.abs(remaining))}`}
         </td>
-        <td>
+        <td class="hide-mobile">
           <div class="progress-bar-wrapper">
             <div class="progress-track" style="background-color: var(--border-color);">
               <div class="progress-fill" style="width: ${Math.min(utilization, 100)}%; background: ${utilization > 100 ? 'var(--accent-danger)' : 'linear-gradient(90deg, var(--accent-secondary) 0%, var(--accent-primary) 100%)'}"></div>
