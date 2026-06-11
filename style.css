@@ -1671,11 +1671,14 @@ input[type="date"].select-filter { color-scheme: dark; }
   outline: none;
 }
 
-/* =========================================================================
-   COLLAPSED STATE (for collapsible sections)
-   ========================================================================= */
-.collapsed {
-  display: none;
+/* Collapsed state — only for filter-pane, not dashboard pages */
+.filter-pane.collapsed {
+  width: 0 !important;
+  padding: 0 !important;
+  border-right: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden;
 }
 
 /* =========================================================================
@@ -1712,13 +1715,60 @@ input[type="date"].select-filter { color-scheme: dark; }
   /* ── Compact mobile header ── */
   .header {
     height: auto;
-    min-height: 52px;
-    padding: 8px 14px;
-    gap: 8px;
-    flex-wrap: wrap;
+    min-height: 48px;
+    padding: 6px 10px;
+    gap: 6px;
+    flex-wrap: nowrap;
     position: sticky;
     top: 0;
-    z-index: 90;
+    z-index: 100;
+  }
+
+  .hdr-l {
+    gap: 6px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .logo-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .brand-en {
+    font-size: 0.72rem;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .hdr-r {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .hdr-date {
+    display: none;
+  }
+
+  .live-pill {
+    display: none;
+  }
+
+  .hdr-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    font-size: 0;
+    gap: 0;
+  }
+
+  .hdr-btn i,
+  .hdr-btn svg {
+    width: 16px !important;
+    height: 16px !important;
   }
 
   .header-title-section h1 {
@@ -2146,9 +2196,14 @@ input[type="date"].select-filter { color-scheme: dark; }
   }
 
   /* ── GLOBAL: prevent horizontal overflow ── */
-  body, .main-wrapper, .content-body, .dashboard-page {
+  body, .main-wrapper {
     overflow-x: hidden;
     max-width: 100vw;
+  }
+
+  .content-body {
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .toolbar-controls,
@@ -2160,27 +2215,7 @@ input[type="date"].select-filter { color-scheme: dark; }
 
   /* ── HEADER: safe area ── */
   .header {
-    padding-top: calc(8px + env(safe-area-inset-top, 0px)) !important;
-  }
-
-  /* ── Header button tap targets ── */
-  #sync-sheets-btn,
-  #sheet-settings-btn,
-  #theme-toggle {
-    width: 40px !important;
-    height: 40px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: var(--radius-sm) !important;
-    padding: 0 !important;
-  }
-
-  #sync-sheets-btn svg,
-  #sheet-settings-btn svg,
-  #theme-toggle svg {
-    width: 18px !important;
-    height: 18px !important;
+    padding-top: calc(6px + env(safe-area-inset-top, 0px)) !important;
   }
 
   .mobile-header-logo {
