@@ -42,47 +42,67 @@ const STATE = {
   
   // 1. Purchase Orders Database
   purchaseOrders: [
-    { poNumber: 'PO-2026-0042', vendor: 'Vertex Solutions Inc.', date: '2026-05-10', deliveryDate: '2026-06-15', totalValue: 420000, invoicedValue: 315000, status: 'partially invoiced' },
-    { poNumber: 'PO-2026-0043', vendor: 'Starlight Industries', date: '2026-05-12', deliveryDate: '2026-06-01', totalValue: 150000, invoicedValue: 150000, status: 'open' },
-    { poNumber: 'PO-2026-0044', vendor: 'Global Logistics LLC', date: '2026-05-14', deliveryDate: '2026-05-30', totalValue: 68500, invoicedValue: 24000, status: 'overdue' },
-    { poNumber: 'PO-2026-0045', vendor: 'Aapex Power Grid', date: '2026-05-18', deliveryDate: '2026-06-10', totalValue: 85000, invoicedValue: 0, status: 'open' },
-    { poNumber: 'PO-2026-0046', vendor: 'Pinnacle Paper Co.', date: '2026-05-20', deliveryDate: '2026-06-02', totalValue: 25000, invoicedValue: 25000, status: 'open' },
-    { poNumber: 'PO-2026-0047', vendor: 'Titan Engineering Corp', date: '2026-05-22', deliveryDate: '2026-05-28', totalValue: 310000, invoicedValue: 180000, status: 'overdue' },
-    { poNumber: 'PO-2026-0048', vendor: 'Apex Software Corp', date: '2026-05-25', deliveryDate: '2026-06-25', totalValue: 125000, invoicedValue: 35000, status: 'partially invoiced' },
-    { poNumber: 'PO-2026-0049', vendor: 'BlueRidge Security', date: '2026-05-28', deliveryDate: '2026-06-28', totalValue: 42300, invoicedValue: 0, status: 'open' },
-    { poNumber: 'PO-2026-0050', vendor: 'Swift Courier Corp', date: '2026-05-29', deliveryDate: '2026-06-05', totalValue: 15000, invoicedValue: 12000, status: 'partially invoiced' },
-    { poNumber: 'PO-2026-0051', vendor: 'Zenith Legal Advisors', date: '2026-06-01', deliveryDate: '2026-07-01', totalValue: 185000, invoicedValue: 0, status: 'open' }
+    { poNumber: 'PO-2026-0042', vendor: 'Vertex Solutions Inc.', date: '2026-05-10', deliveryDate: '2026-06-15', totalValue: 420000, invoicedValue: 315000, status: 'partially invoiced', companyCode: 'IM-01' },
+    { poNumber: 'PO-2026-0043', vendor: 'Starlight Industries', date: '2026-05-12', deliveryDate: '2026-06-01', totalValue: 150000, invoicedValue: 150000, status: 'open', companyCode: 'IM-02' },
+    { poNumber: 'PO-2026-0044', vendor: 'Global Logistics LLC', date: '2026-05-14', deliveryDate: '2026-05-30', totalValue: 68500, invoicedValue: 24000, status: 'overdue', companyCode: 'IM-03' },
+    { poNumber: 'PO-2026-0045', vendor: 'Aapex Power Grid', date: '2026-05-18', deliveryDate: '2026-06-10', totalValue: 85000, invoicedValue: 0, status: 'open', companyCode: 'IM-01' },
+    { poNumber: 'PO-2026-0046', vendor: 'Pinnacle Paper Co.', date: '2026-05-20', deliveryDate: '2026-06-02', totalValue: 25000, invoicedValue: 25000, status: 'open', companyCode: 'IM-02' },
+    { poNumber: 'PO-2026-0047', vendor: 'Titan Engineering Corp', date: '2026-05-22', deliveryDate: '2026-05-28', totalValue: 310000, invoicedValue: 180000, status: 'overdue', companyCode: 'IM-03' },
+    { poNumber: 'PO-2026-0048', vendor: 'Apex Software Corp', date: '2026-05-25', deliveryDate: '2026-06-25', totalValue: 125000, invoicedValue: 35000, status: 'partially invoiced', companyCode: 'IM-01' },
+    { poNumber: 'PO-2026-0049', vendor: 'BlueRidge Security', date: '2026-05-28', deliveryDate: '2026-06-28', totalValue: 42300, invoicedValue: 0, status: 'open', companyCode: 'IM-02' },
+    { poNumber: 'PO-2026-0050', vendor: 'Swift Courier Corp', date: '2026-05-29', deliveryDate: '2026-06-05', totalValue: 15000, invoicedValue: 12000, status: 'partially invoiced', companyCode: 'IM-03' },
+    { poNumber: 'PO-2026-0051', vendor: 'Zenith Legal Advisors', date: '2026-06-01', deliveryDate: '2026-07-01', totalValue: 185000, invoicedValue: 0, status: 'open', companyCode: 'IM-01' }
   ],
 
   // 2. Chart of Accounts (COA) / GL Budget Data
   coaAccounts: [
-    { code: '5100', name: 'Raw Materials & Inventory', category: 'direct', spend: 85200, budget: 120000 },
-    { code: '6100', name: 'Rent & Facility Leases', category: 'indirect', spend: 42500, budget: 50000 },
-    { code: '6200', name: 'Electricity & Water Utilities', category: 'indirect', spend: 18400, budget: 15000 }, // Over Budget
-    { code: '6300', name: 'IT Infrastructure & SaaS', category: 'indirect', spend: 28250, budget: 35000 },
-    { code: '6400', name: 'Marketing & Ad Spend', category: 'indirect', spend: 25000, budget: 40000 },
-    { code: '6500', name: 'Professional Services & Fees', category: 'indirect', spend: 22500, budget: 20000 }, // Over Budget
-    { code: '6600', name: 'Office Supplies & Expense', category: 'indirect', spend: 3200, budget: 6000 },
-    { code: '6700', name: 'Travel & Client Entertainment', category: 'indirect', spend: 9200, budget: 15000 }
+    { code: '5100', name: 'Raw Materials & Inventory', category: 'direct', spend: 85200, budget: 120000, companyCode: 'IM-01' },
+    { code: '6100', name: 'Rent & Facility Leases', category: 'indirect', spend: 42500, budget: 50000, companyCode: 'IM-02' },
+    { code: '6200', name: 'Electricity & Water Utilities', category: 'indirect', spend: 18400, budget: 15000, companyCode: 'IM-03' }, // Over Budget
+    { code: '6300', name: 'IT Infrastructure & SaaS', category: 'indirect', spend: 28250, budget: 35000, companyCode: 'IM-01' },
+    { code: '6400', name: 'Marketing & Ad Spend', category: 'indirect', spend: 25000, budget: 40000, companyCode: 'IM-02' },
+    { code: '6500', name: 'Professional Services & Fees', category: 'indirect', spend: 22500, budget: 20000, companyCode: 'IM-03' }, // Over Budget
+    { code: '6600', name: 'Office Supplies & Expense', category: 'indirect', spend: 3200, budget: 6000, companyCode: 'IM-01' },
+    { code: '6700', name: 'Travel & Client Entertainment', category: 'indirect', spend: 9200, budget: 15000, companyCode: 'IM-02' }
   ],
 
   // 3. Daily Invoice Processing Log
   dailyLog: [
-    { date: '2026-06-03', timestamp: '08:15 AM', invoiceId: 'INV-94285', vendor: 'Vertex Solutions Inc.', amount: 45000, poRef: 'PO-2026-0042', processor: 'Zojaja', matchStatus: 'pass', status: 'approved' },
-    { date: '2026-06-03', timestamp: '08:42 AM', invoiceId: 'INV-29472', vendor: 'Starlight Industries', amount: 15000, poRef: 'PO-2026-0043', processor: 'Ambreen', matchStatus: 'pass', status: 'approved' },
-    { date: '2026-06-03', timestamp: '09:12 AM', invoiceId: 'INV-83742', vendor: 'Global Logistics LLC', amount: 24000, poRef: 'PO-2026-0044', processor: 'Yasir', matchStatus: 'pass', status: 'approved' },
-    { date: '2026-06-03', timestamp: '09:55 AM', invoiceId: 'INV-10492', vendor: 'Apex Software Corp', amount: 35000, poRef: 'PO-2026-0048', processor: 'Muhammad Abubakar', matchStatus: 'pass', status: 'approved' },
-    { date: '2026-06-03', timestamp: '10:05 AM', invoiceId: 'INV-48201', vendor: 'Titan Engineering Corp', amount: 90000, poRef: 'PO-2026-0047', processor: 'Zojaja', matchStatus: 'fail', status: 'duplicate hold' },
-    { date: '2026-06-03', timestamp: '10:20 AM', invoiceId: 'INV-91204', vendor: 'Swift Courier Corp', amount: 12000, poRef: 'PO-2026-0050', processor: 'Usman Saleem', matchStatus: 'pass', status: 'approved' },
-    { date: '2026-06-03', timestamp: '10:22 AM', invoiceId: 'INV-39401', vendor: 'Starlight Industries', amount: 18000, poRef: 'PO-2026-0043', processor: 'Muhammad Abubakar', matchStatus: 'fail', status: 'pending approval' }
+    { date: '2026-06-03', timestamp: '08:15 AM', invoiceId: 'INV-94285', vendor: 'Vertex Solutions Inc.', amount: 45000, poRef: 'PO-2026-0042', processor: 'Finance Executive 1', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-06-03', timestamp: '08:42 AM', invoiceId: 'INV-29472', vendor: 'Starlight Industries', amount: 15000, poRef: 'PO-2026-0043', processor: 'Finance Executive 2', matchStatus: 'pass', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-06-03', timestamp: '09:12 AM', invoiceId: 'INV-83742', vendor: 'Global Logistics LLC', amount: 24000, poRef: 'PO-2026-0044', processor: 'Finance Executive 3', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    { date: '2026-06-03', timestamp: '09:55 AM', invoiceId: 'INV-10492', vendor: 'Apex Software Corp', amount: 35000, poRef: 'PO-2026-0048', processor: 'Sr. Finance Executive', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-06-03', timestamp: '10:05 AM', invoiceId: 'INV-48201', vendor: 'Titan Engineering Corp', amount: 90000, poRef: 'PO-2026-0047', processor: 'Finance Executive 1', matchStatus: 'fail', status: 'duplicate hold', companyCode: 'IM-03' },
+    { date: '2026-06-03', timestamp: '10:20 AM', invoiceId: 'INV-91204', vendor: 'Swift Courier Corp', amount: 12000, poRef: 'PO-2026-0050', processor: 'Document Controller', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    { date: '2026-06-03', timestamp: '10:22 AM', invoiceId: 'INV-39401', vendor: 'Starlight Industries', amount: 18000, poRef: 'PO-2026-0043', processor: 'Sr. Finance Executive', matchStatus: 'fail', status: 'pending approval', companyCode: 'IM-02' },
+    
+    // Older historical logs (May 2026) to fill out weeks
+    { date: '2026-05-28', timestamp: '11:15 AM', invoiceId: 'INV-94101', vendor: 'Vertex Solutions Inc.', amount: 80000, poRef: 'PO-2026-0042', processor: 'Finance Executive 1', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-25', timestamp: '02:30 PM', invoiceId: 'INV-94102', vendor: 'BlueRidge Security', amount: 20000, poRef: 'PO-2026-0049', processor: 'Finance Executive 3', matchStatus: 'pass', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-05-24', timestamp: '04:10 PM', invoiceId: 'INV-94103', vendor: 'Starlight Industries', amount: 30000, poRef: 'PO-2026-0043', processor: 'Finance Executive 2', matchStatus: 'pass', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-05-21', timestamp: '09:15 AM', invoiceId: 'INV-94104', vendor: 'Titan Engineering Corp', amount: 50000, poRef: 'PO-2026-0047', processor: 'Sr. Finance Executive', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    { date: '2026-05-20', timestamp: '10:45 AM', invoiceId: 'INV-94105', vendor: 'Pinnacle Paper Co.', amount: 25000, poRef: 'PO-2026-0046', processor: 'Finance Executive 1', matchStatus: 'pass', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-05-18', timestamp: '01:20 PM', invoiceId: 'INV-94106', vendor: 'Vertex Solutions Inc.', amount: 60000, poRef: 'PO-2026-0042', processor: 'Finance Executive 2', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-15', timestamp: '03:15 PM', invoiceId: 'INV-94107', vendor: 'Apex Software Corp', amount: 20000, poRef: 'PO-2026-0048', processor: 'Finance Executive 3', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-12', timestamp: '11:00 AM', invoiceId: 'INV-94108', vendor: 'Global Logistics LLC', amount: 15000, poRef: 'PO-2026-0044', processor: 'Document Controller', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    { date: '2026-05-09', timestamp: '02:00 PM', invoiceId: 'INV-94109', vendor: 'Vertex Solutions Inc.', amount: 70000, poRef: 'PO-2026-0042', processor: 'Finance Executive 1', matchStatus: 'pass', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-06', timestamp: '09:30 AM', invoiceId: 'INV-94110', vendor: 'Titan Engineering Corp', amount: 40000, poRef: 'PO-2026-0047', processor: 'Sr. Finance Executive', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    { date: '2026-05-04', timestamp: '11:30 AM', invoiceId: 'INV-94111', vendor: 'Starlight Industries', amount: 45000, poRef: 'PO-2026-0043', processor: 'Finance Executive 2', matchStatus: 'pass', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-05-02', timestamp: '04:45 PM', invoiceId: 'INV-94112', vendor: 'Global Logistics LLC', amount: 9000, poRef: 'PO-2026-0044', processor: 'Finance Executive 3', matchStatus: 'pass', status: 'approved', companyCode: 'IM-03' },
+    
+    // Older Non-PO Approved Invoices to fill out non-PO spends and compliance charts
+    { date: '2026-05-27', timestamp: '10:00 AM', invoiceId: 'NPO-88100', vendor: 'Interstate Power Grid', amount: 8000, poRef: 'Non-PO', processor: 'Manager Payable', matchStatus: 'na', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-22', timestamp: '11:30 AM', invoiceId: 'NPO-88101', vendor: 'Wellesley Legal Group', amount: 15000, poRef: 'Non-PO', processor: 'Manager Payable', matchStatus: 'na', status: 'approved', companyCode: 'IM-02' },
+    { date: '2026-05-14', timestamp: '02:00 PM', invoiceId: 'NPO-88102', vendor: 'Digital Horizon Agency', amount: 12000, poRef: 'Non-PO', processor: 'Manager Payable', matchStatus: 'na', status: 'approved', companyCode: 'IM-01' },
+    { date: '2026-05-08', timestamp: '04:15 PM', invoiceId: 'NPO-88103', vendor: 'Interstate Power Grid', amount: 7000, poRef: 'Non-PO', processor: 'Manager Payable', matchStatus: 'na', status: 'approved', companyCode: 'IM-03' }
   ],
 
   // 4. Non-PO Invoices that need Manual GL coding
   nonPoQueue: [
-    { id: 'NPO-88231', vendor: 'Interstate Power Grid', amount: 3400, date: '2026-06-02', defaultCoa: '6200' },
-    { id: 'NPO-19402', vendor: 'Wellesley Legal Group', amount: 12500, date: '2026-06-02', defaultCoa: '6500' },
-    { id: 'NPO-58201', vendor: 'Pinnacle Paper Co.', amount: 450, date: '2026-06-03', defaultCoa: '6600' },
-    { id: 'NPO-77402', vendor: 'Digital Horizon Agency', amount: 8000, date: '2026-06-03', defaultCoa: '6400' }
+    { id: 'NPO-88231', vendor: 'Interstate Power Grid', amount: 3400, date: '2026-06-02', defaultCoa: '6200', companyCode: 'IM-01' },
+    { id: 'NPO-19402', vendor: 'Wellesley Legal Group', amount: 12500, date: '2026-06-02', defaultCoa: '6500', companyCode: 'IM-02' },
+    { id: 'NPO-58201', vendor: 'Pinnacle Paper Co.', amount: 450, date: '2026-06-03', defaultCoa: '6600', companyCode: 'IM-03' },
+    { id: 'NPO-77402', vendor: 'Digital Horizon Agency', amount: 8000, date: '2026-06-03', defaultCoa: '6400', companyCode: 'IM-01' }
   ],
 
   // 30-day compliance aggregates (historical charts)
@@ -129,12 +149,7 @@ const DOM = {
   poKpiOverdue: document.getElementById('po-kpi-overdue'),
   poKpiVendors: document.getElementById('po-kpi-vendors'),
 
-  // PO vs Non-PO elements
-  compKpiRate: document.getElementById('comp-kpi-rate'),
-  compKpiTotal: document.getElementById('comp-kpi-total'),
-  compKpiPoSpend: document.getElementById('comp-kpi-po-spend'),
-  compKpiNonSpend: document.getElementById('comp-kpi-non-spend'),
-  nonPoQueue: document.getElementById('non-po-queue'),
+
 
   // Daily Log elements
   logTableBody: document.getElementById('log-table-body'),
@@ -163,8 +178,7 @@ const DOM = {
   poDateFrom: document.getElementById('po-date-from'),
   poDateTo: document.getElementById('po-date-to'),
   logDateFilter: document.getElementById('log-date-filter'),
-  compDateFrom: document.getElementById('comp-date-from'),
-  compDateTo: document.getElementById('comp-date-to'),
+
   coaDateFrom: document.getElementById('coa-date-from'),
   coaDateTo: document.getElementById('coa-date-to')
 };
@@ -260,10 +274,7 @@ DOM.navItems.forEach(item => {
     // Set Header Titles
     let title = "Open PO Report";
     let subtitle = "Track and analyze open purchase orders and vendor encumbrances";
-    if (target === 'page-po-vs-non-po') {
-      title = "PO vs Non-PO Compliance";
-      subtitle = "Compare spend compliance and route unallocated billing cases";
-    } else if (target === 'page-daily-log') {
+    if (target === 'page-daily-log') {
       title = "Daily Activity Log";
       subtitle = "Register invoice transactions, match invoices, and audit pipelines";
     } else if (target === 'page-coa-wise') {
@@ -271,8 +282,8 @@ DOM.navItems.forEach(item => {
       subtitle = "Consolidated departmental spend, COA allocation & budget performance overview";
     }
     
-    DOM.pageTitle.textContent = title;
-    DOM.pageSubtitle.textContent = subtitle;
+    if (DOM.pageTitle) DOM.pageTitle.textContent = title;
+    if (DOM.pageSubtitle) DOM.pageSubtitle.textContent = subtitle;
 
     // Refresh charts for visual animations on entry
     renderCharts();
@@ -291,6 +302,11 @@ function switchPage(target) {
     btn.classList.toggle('active', btn.getAttribute('data-target') === target);
   });
 
+  // Update horizontal top nav tabs
+  document.querySelectorAll('.nav-tab[data-target]').forEach(tab => {
+    tab.classList.toggle('active', tab.getAttribute('data-target') === target);
+  });
+
   // Show correct page
   DOM.pages.forEach(page => {
     page.classList.toggle('active', page.id === target);
@@ -301,13 +317,13 @@ function switchPage(target) {
   // Update header title
   const titles = {
     'page-open-po':      ['Open PO Report',          'Track and analyze open purchase orders and vendor encumbrances'],
-    'page-po-vs-non-po': ['PO vs Non-PO Compliance',  'Compare spend compliance and route unallocated billing cases'],
+
     'page-daily-log':    ['Daily Activity Log',        'Register invoice transactions, match invoices, and audit pipelines'],
     'page-coa-wise':     ['Executive Summary Report',  'Consolidated departmental spend, COA allocation & budget performance overview']
   };
   const [title, subtitle] = titles[target] || ['Dashboard', ''];
-  DOM.pageTitle.textContent = title;
-  DOM.pageSubtitle.textContent = subtitle;
+  if (DOM.pageTitle) DOM.pageTitle.textContent = title;
+  if (DOM.pageSubtitle) DOM.pageSubtitle.textContent = subtitle;
 
   // Scroll to top on mobile page switch
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -318,7 +334,136 @@ document.querySelectorAll('.mobile-nav-item[data-target]').forEach(btn => {
   btn.addEventListener('click', () => switchPage(btn.getAttribute('data-target')));
 });
 
+// Horizontal Top Nav Tabs
+document.querySelectorAll('.nav-tab[data-target]').forEach(tab => {
+  tab.addEventListener('click', () => switchPage(tab.getAttribute('data-target')));
+});
 
+
+
+
+/* =========================================================================
+   GLOBAL FILTER ENGINE (DASHBOARD REDESIGN)
+   ========================================================================= */
+
+function getFilteredData() {
+  const company = document.getElementById('global-company-filter').value;
+  const dateFrom = document.getElementById('global-date-from').value;
+  const dateTo = document.getElementById('global-date-to').value;
+  const vendor = document.getElementById('global-vendor-filter').value.toLowerCase();
+
+  const pos = STATE.purchaseOrders.filter(po => {
+    const matchesCompany = company === 'all' || po.companyCode === company;
+    const matchesDateFrom = !dateFrom || po.date >= dateFrom;
+    const matchesDateTo = !dateTo || po.date <= dateTo;
+    const matchesVendor = !vendor || po.vendor.toLowerCase().includes(vendor);
+    return matchesCompany && matchesDateFrom && matchesDateTo && matchesVendor;
+  });
+
+  const logs = STATE.dailyLog.filter(log => {
+    const matchesCompany = company === 'all' || log.companyCode === company;
+    const matchesDateFrom = !dateFrom || log.date >= dateFrom;
+    const matchesDateTo = !dateTo || log.date <= dateTo;
+    const matchesVendor = !vendor || log.vendor.toLowerCase().includes(vendor);
+    return matchesCompany && matchesDateFrom && matchesDateTo && matchesVendor;
+  });
+
+  const npoQueue = STATE.nonPoQueue.filter(npo => {
+    const matchesCompany = company === 'all' || npo.companyCode === company;
+    const matchesDateFrom = !dateFrom || npo.date >= dateFrom;
+    const matchesDateTo = !dateTo || npo.date <= dateTo;
+    const matchesVendor = !vendor || npo.vendor.toLowerCase().includes(vendor);
+    return matchesCompany && matchesDateFrom && matchesDateTo && matchesVendor;
+  });
+
+  const coas = STATE.coaAccounts.filter(coa => {
+    const matchesCompany = company === 'all' || coa.companyCode === company;
+    return matchesCompany;
+  });
+
+  return { pos, logs, npoQueue, coas };
+}
+
+// Global Filter change event listeners
+document.getElementById('global-company-filter').addEventListener('change', refreshAll);
+document.getElementById('global-date-from').addEventListener('change', refreshAll);
+document.getElementById('global-date-to').addEventListener('change', refreshAll);
+document.getElementById('global-vendor-filter').addEventListener('input', refreshAll);
+document.getElementById('reset-global-filters-btn').addEventListener('click', () => {
+  document.getElementById('global-company-filter').value = 'all';
+  document.getElementById('global-date-from').value = '';
+  document.getElementById('global-date-to').value = '';
+  document.getElementById('global-vendor-filter').value = '';
+  DOM.poStatusFilter.value = 'all';
+  document.querySelectorAll('.interactive-kpi').forEach(c => c.classList.remove('active-filter'));
+  refreshAll();
+});
+
+// Collapsible Filter Pane event triggers
+const filterPane = document.getElementById('filter-pane');
+const toggleFilterBtn = document.getElementById('toggle-filter-pane-btn');
+const closeFilterBtn = document.getElementById('close-filter-btn');
+
+if (toggleFilterBtn && filterPane) {
+  toggleFilterBtn.addEventListener('click', () => {
+    filterPane.classList.toggle('collapsed');
+    setTimeout(renderCharts, 300);
+  });
+}
+if (closeFilterBtn && filterPane) {
+  closeFilterBtn.addEventListener('click', () => {
+    filterPane.classList.add('collapsed');
+    setTimeout(renderCharts, 300);
+  });
+}
+
+// KPI Card click cross-filtering
+function setupKpiCardInteractivity() {
+  const openPoCard = document.getElementById('kpi-card-open-po-value');
+  const overdueCard = document.getElementById('kpi-card-overdue-deliveries');
+  const statusFilter = document.getElementById('po-status-filter');
+
+  if (openPoCard && statusFilter) {
+    openPoCard.addEventListener('click', () => {
+      if (openPoCard.classList.contains('active-filter')) {
+        openPoCard.classList.remove('active-filter');
+        statusFilter.value = 'all';
+      } else {
+        openPoCard.classList.add('active-filter');
+        if (overdueCard) overdueCard.classList.remove('active-filter');
+        statusFilter.value = 'open';
+      }
+      updateOpenPoDashboard();
+      renderCharts();
+    });
+  }
+
+  if (overdueCard && statusFilter) {
+    overdueCard.addEventListener('click', () => {
+      if (overdueCard.classList.contains('active-filter')) {
+        overdueCard.classList.remove('active-filter');
+        statusFilter.value = 'all';
+      } else {
+        overdueCard.classList.add('active-filter');
+        if (openPoCard) openPoCard.classList.remove('active-filter');
+        statusFilter.value = 'overdue';
+      }
+      updateOpenPoDashboard();
+      renderCharts();
+    });
+  }
+
+  if (statusFilter) {
+    statusFilter.addEventListener('change', () => {
+      const val = statusFilter.value;
+      if (openPoCard) openPoCard.classList.toggle('active-filter', val === 'open');
+      if (overdueCard) overdueCard.classList.toggle('active-filter', val === 'overdue');
+    });
+  }
+}
+
+// Initialize card interactivity
+setupKpiCardInteractivity();
 
 
 /* =========================================================================
@@ -326,37 +471,31 @@ document.querySelectorAll('.mobile-nav-item[data-target]').forEach(btn => {
    ========================================================================= */
 
 function updateOpenPoDashboard() {
+  const { pos } = getFilteredData();
   const searchVal = DOM.poSearch.value.toLowerCase();
   const filterVal = DOM.poStatusFilter.value;
 
-  // Calculate high level KPIs
-  let totalPoValue = 0;
+  // Calculate high level KPIs from filtered list
   let remainingPoValue = 0;
   let overdueCount = 0;
   const vendorsSet = new Set();
 
-  STATE.purchaseOrders.forEach(po => {
-    totalPoValue += po.totalValue;
+  pos.forEach(po => {
     remainingPoValue += (po.totalValue - po.invoicedValue);
     vendorsSet.add(po.vendor);
     if (po.status === 'overdue') overdueCount++;
   });
 
   DOM.poKpiValue.textContent = formatCurrency(remainingPoValue);
-  DOM.poKpiCount.textContent = STATE.purchaseOrders.filter(p => p.status !== 'fully invoiced').length;
+  DOM.poKpiCount.textContent = pos.filter(p => p.status !== 'fully invoiced').length;
   DOM.poKpiOverdue.textContent = overdueCount;
   DOM.poKpiVendors.textContent = vendorsSet.size;
 
-  // Filter purchase orders by search, status and date range
-  const dateFrom = DOM.poDateFrom ? DOM.poDateFrom.value : '';
-  const dateTo = DOM.poDateTo ? DOM.poDateTo.value : '';
-
-  const filteredPos = STATE.purchaseOrders.filter(po => {
+  // Apply local table toolbar filters
+  const filteredPos = pos.filter(po => {
     const matchesSearch = po.poNumber.toLowerCase().includes(searchVal) || po.vendor.toLowerCase().includes(searchVal);
     const matchesFilter = filterVal === 'all' || po.status === filterVal;
-    const matchesFrom = !dateFrom || po.date >= dateFrom;
-    const matchesTo = !dateTo || po.date <= dateTo;
-    return matchesSearch && matchesFilter && matchesFrom && matchesTo;
+    return matchesSearch && matchesFilter;
   });
 
   // Render Table rows
@@ -394,81 +533,13 @@ function updateOpenPoDashboard() {
 // Bind PO controls
 DOM.poSearch.addEventListener('input', updateOpenPoDashboard);
 DOM.poStatusFilter.addEventListener('change', updateOpenPoDashboard);
-if (DOM.poDateFrom) DOM.poDateFrom.addEventListener('change', updateOpenPoDashboard);
-if (DOM.poDateTo) DOM.poDateTo.addEventListener('change', updateOpenPoDashboard);
 
 
 /* =========================================================================
    2. DASHBOARD 2: PO VS NON-PO CASES ENGINE
    ========================================================================= */
 
-function updateComplianceDashboard() {
-  const colors = getThemeColors();
 
-  // Compute spend metrics
-  const totalInvoices = STATE.poComplianceCount + STATE.nonPoComplianceCount;
-  const complianceRate = (STATE.poComplianceCount / totalInvoices) * 100;
-
-  // Let's sum historical totals
-  const poSpend = 842000;
-  const nonPoSpend = 231500;
-  const totalSpend = poSpend + nonPoSpend;
-
-  DOM.compKpiRate.textContent = formatPercentage(complianceRate);
-  DOM.compKpiTotal.textContent = totalInvoices;
-  DOM.compKpiPoSpend.textContent = formatCurrency(poSpend);
-  DOM.compKpiNonSpend.textContent = formatCurrency(nonPoSpend);
-
-  // Apply date filter to Non-PO queue
-  const compFrom = DOM.compDateFrom ? DOM.compDateFrom.value : '';
-  const compTo = DOM.compDateTo ? DOM.compDateTo.value : '';
-  const filteredQueue = STATE.nonPoQueue.filter(npo => {
-    const matchFrom = !compFrom || npo.date >= compFrom;
-    const matchTo = !compTo || npo.date <= compTo;
-    return matchFrom && matchTo;
-  });
-
-  // Render GL Mapping queue
-  if (filteredQueue.length === 0) {
-    DOM.nonPoQueue.innerHTML = `
-      <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-        <i data-feather="check-circle" style="width: 48px; height: 48px; stroke-width: 1.5; color: var(--accent-primary); margin-bottom: 12px;"></i>
-        <p style="font-weight: 600;">${STATE.nonPoQueue.length === 0 ? 'Queue Cleared' : 'No Results for Selected Date'}</p>
-        <p style="font-size:0.8rem;">${STATE.nonPoQueue.length === 0 ? 'All Non-PO invoices coded.' : 'Try a different date range.'}</p>
-      </div>
-    `;
-    feather.replace({ parent: DOM.nonPoQueue });
-    return;
-  }
-
-  DOM.nonPoQueue.innerHTML = filteredQueue.map(npo => {
-    // Generate COA options
-    const coaOptions = STATE.coaAccounts.map(c => 
-      `<option value="${c.code}" ${c.code === npo.defaultCoa ? 'selected' : ''}>${c.code} - ${c.name}</option>`
-    ).join('');
-
-    return `
-      <div class="coding-card" id="card-${npo.id}">
-        <div class="coding-card-header">
-          <span class="coding-card-vendor">${npo.vendor}</span>
-          <span class="coding-card-amount">${formatCurrency(npo.amount)}</span>
-        </div>
-        <div class="coding-card-meta">
-          <span>ID: ${npo.id}</span>
-          <span>Date: ${npo.date}</span>
-        </div>
-        <div class="coding-card-actions">
-          <select class="select-filter" style="padding: 8px 12px; font-size: 0.85rem;" id="select-${npo.id}">
-            ${coaOptions}
-          </select>
-          <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem; box-shadow: none;" onclick="codeNonPoInvoice('${npo.id}')">
-            <span>Code & Approve</span>
-          </button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
 
 // Function to trigger manual GL coding pipeline
 window.codeNonPoInvoice = function(npoId) {
@@ -480,7 +551,9 @@ window.codeNonPoInvoice = function(npoId) {
   const coa = STATE.coaAccounts.find(c => c.code === selectedCoaCode);
 
   // 1. Update State values
-  coa.spend += npo.amount;
+  if (coa) {
+    coa.spend += npo.amount;
+  }
   STATE.nonPoComplianceCount++;
   
   const now = new Date();
@@ -493,9 +566,10 @@ window.codeNonPoInvoice = function(npoId) {
     vendor: npo.vendor,
     amount: npo.amount,
     poRef: 'Non-PO',
-    processor: 'Saad Ahmad',
+    processor: 'Manager Payable',
     matchStatus: 'na',
-    status: 'approved'
+    status: 'approved',
+    companyCode: npo.companyCode || 'IM-01'
   });
 
   saveState();
@@ -507,10 +581,7 @@ window.codeNonPoInvoice = function(npoId) {
   showToast(`Coded ${npo.id} to COA Account ${selectedCoaCode} successfully!`);
   
   // Refresh views and charts
-  updateComplianceDashboard();
-  updateDailyLogDashboard();
-  updateCoaDashboard();
-  renderCharts();
+  refreshAll();
 };
 
 
@@ -519,26 +590,24 @@ window.codeNonPoInvoice = function(npoId) {
    ========================================================================= */
 
 function updateDailyLogDashboard() {
+  const { logs } = getFilteredData();
   const searchVal = DOM.logSearch.value.toLowerCase();
   const filterVal = DOM.logStatusFilter.value;
 
   // Metrics
-  const processedToday = STATE.dailyLog.filter(l => l.status === 'approved').length;
-  const onHoldToday = STATE.dailyLog.filter(l => l.status === 'duplicate hold').length;
-  const totalCount = STATE.dailyLog.length;
+  const processedToday = logs.filter(l => l.status === 'approved').length;
+  const onHoldToday = logs.filter(l => l.status === 'duplicate hold').length;
+  const totalCount = logs.length;
 
   DOM.logKpiProcessed.textContent = processedToday;
   DOM.logKpiHold.textContent = onHoldToday;
-  DOM.logKpiReceived.textContent = totalCount + STATE.nonPoQueue.length;
+  DOM.logKpiReceived.textContent = totalCount;
 
-  // Filter list by search, status, and date
-  const logDate = DOM.logDateFilter ? DOM.logDateFilter.value : '';
-
-  const filteredLogs = STATE.dailyLog.filter(log => {
+  // Apply local toolbar filters
+  const filteredLogs = logs.filter(log => {
     const matchesSearch = log.invoiceId.toLowerCase().includes(searchVal) || log.vendor.toLowerCase().includes(searchVal);
     const matchesFilter = filterVal === 'all' || log.status === filterVal;
-    const matchesDate = !logDate || log.date === logDate;
-    return matchesSearch && matchesFilter && matchesDate;
+    return matchesSearch && matchesFilter;
   });
 
   // Table rows render
@@ -574,7 +643,6 @@ function updateDailyLogDashboard() {
 // Filters for Daily Log
 DOM.logSearch.addEventListener('input', updateDailyLogDashboard);
 DOM.logStatusFilter.addEventListener('change', updateDailyLogDashboard);
-if (DOM.logDateFilter) DOM.logDateFilter.addEventListener('change', updateDailyLogDashboard);
 
 // Modal Controls
 DOM.openInvoiceModalBtn.addEventListener('click', () => {
@@ -616,30 +684,37 @@ DOM.invoiceForm.addEventListener('submit', (e) => {
   // Process rules
   let matchStatus = 'pass';
   let status = 'approved';
+  let companyCode = 'IM-01';
 
   // If tied to PO, perform matching
   if (poRef !== 'non-po') {
     const po = STATE.purchaseOrders.find(p => p.poNumber === poRef);
-    const balance = po.totalValue - po.invoicedValue;
+    if (po) {
+      companyCode = po.companyCode || 'IM-01';
+      const balance = po.totalValue - po.invoicedValue;
 
-    if (amountVal > balance) {
-      matchStatus = 'fail';
-      status = 'duplicate hold';
-      showToast(`Warning: Invoice amount (PKR ${amountVal.toLocaleString('en-PK')}) exceeds remaining PO limit of PKR ${balance.toLocaleString('en-PK')}. Invoice placed on match-discrepancy hold.`, 'warning');
-    } else {
-      // Deduct from PO balance
-      po.invoicedValue += amountVal;
-      if (po.invoicedValue >= po.totalValue) {
-        po.status = 'fully invoiced';
+      if (amountVal > balance) {
+        matchStatus = 'fail';
+        status = 'duplicate hold';
+        showToast(`Warning: Invoice amount (PKR ${amountVal.toLocaleString('en-PK')}) exceeds remaining PO limit of PKR ${balance.toLocaleString('en-PK')}. Invoice placed on match-discrepancy hold.`, 'warning');
       } else {
-        po.status = 'partially invoiced';
+        po.invoicedValue += amountVal;
+        if (po.invoicedValue >= po.totalValue) {
+          po.status = 'fully invoiced';
+        } else {
+          po.status = 'partially invoiced';
+        }
+        showToast(`Invoice matched to PO ${poRef} successfully.`);
       }
-      showToast(`Invoice matched to PO ${poRef} successfully.`);
     }
   } else {
     // Non-PO cases default to Pending Manager approval and bypass 3-way match
     matchStatus = 'na';
     status = 'pending approval';
+    
+    // In Non-PO form, default to the selected global company code or IM-01
+    const globalCompany = document.getElementById('global-company-filter').value;
+    companyCode = globalCompany === 'all' ? 'IM-01' : globalCompany;
     showToast(`Non-PO Invoice logged and sent to Manager Approval queue.`);
   }
 
@@ -662,20 +737,13 @@ DOM.invoiceForm.addEventListener('submit', (e) => {
     poRef: poRef === 'non-po' ? 'Non-PO' : poRef,
     processor: processor,
     matchStatus: matchStatus,
-    status: status
+    status: status,
+    companyCode: companyCode
   });
 
-  // If Non-PO, also throw into the coding queue if it wasn't pre-coded, but since we require select COA in form, it counts as coded and approved.
-  
   saveState();
-
-  // Refresh views and charts
   hideModal();
-  updateOpenPoDashboard();
-  updateDailyLogDashboard();
-  updateCoaDashboard();
-  updateComplianceDashboard();
-  renderCharts();
+  refreshAll();
 });
 
 
@@ -684,28 +752,16 @@ DOM.invoiceForm.addEventListener('submit', (e) => {
    ========================================================================= */
 
 function updateCoaDashboard() {
+  const { coas } = getFilteredData();
   const filterVal = DOM.coaGroupFilter.value;
-  const coaFrom = DOM.coaDateFrom ? DOM.coaDateFrom.value : '';
-  const coaTo = DOM.coaDateTo ? DOM.coaDateTo.value : '';
-
-  // Build a period label for the table header
-  const periodEl = document.getElementById('coa-period-label');
-  if (periodEl) {
-    if (coaFrom || coaTo) {
-      periodEl.textContent = `Period: ${coaFrom || '—'} to ${coaTo || '—'}`;
-      periodEl.style.display = 'inline-block';
-    } else {
-      periodEl.style.display = 'none';
-    }
-  }
 
   // Metrics calculations
   let totalAllocated = 0;
-  let activeCodes = STATE.coaAccounts.length;
+  let activeCodes = coas.length;
   let budgetPass = 0;
   let budgetFail = 0;
 
-  STATE.coaAccounts.forEach(coa => {
+  coas.forEach(coa => {
     totalAllocated += coa.spend;
     if (coa.spend > coa.budget) {
       budgetFail++;
@@ -719,15 +775,15 @@ function updateCoaDashboard() {
   DOM.coaKpiBudgetPass.textContent = budgetPass;
   DOM.coaKpiBudgetFail.textContent = budgetFail;
 
-  // Filter COA accounts by category (date filter shows a period label for awareness)
-  const filteredCoas = STATE.coaAccounts.filter(coa => {
+  // Filter COA accounts by category
+  const filteredCoas = coas.filter(coa => {
     return filterVal === 'all' || coa.category === filterVal;
   });
 
   // Render Table rows
   DOM.coaTableBody.innerHTML = filteredCoas.map(coa => {
     const remaining = coa.budget - coa.spend;
-    const utilization = (coa.spend / coa.budget) * 100;
+    const utilization = coa.budget > 0 ? (coa.spend / coa.budget) * 100 : 0;
     
     let statusClass = 'on-track';
     let statusText = 'On Track';
@@ -766,8 +822,7 @@ function updateCoaDashboard() {
 DOM.coaGroupFilter.addEventListener('change', updateCoaDashboard);
 if (DOM.coaDateFrom) DOM.coaDateFrom.addEventListener('change', updateCoaDashboard);
 if (DOM.coaDateTo) DOM.coaDateTo.addEventListener('change', updateCoaDashboard);
-if (DOM.compDateFrom) DOM.compDateFrom.addEventListener('change', updateComplianceDashboard);
-if (DOM.compDateTo) DOM.compDateTo.addEventListener('change', updateComplianceDashboard);
+
 
 
 /* =========================================================================
@@ -776,6 +831,7 @@ if (DOM.compDateTo) DOM.compDateTo.addEventListener('change', updateComplianceDa
 
 function renderCharts() {
   const colors = getThemeColors();
+  const { pos, logs, coas } = getFilteredData();
   
   // Set global Chart.js configuration overrides
   Chart.defaults.color = colors.text;
@@ -815,13 +871,32 @@ function renderCharts() {
 
   // A. OPEN PO REPORT CHARTS
   if (STATE.activeTab === 'page-open-po') {
+    // Calculate aging brackets based on 2026-06-03 base date
+    let brackets = [0, 0, 0, 0]; // 0-30, 31-60, 61-90, 90+
+    const baseDate = new Date('2026-06-03');
+    pos.forEach(po => {
+      const poDate = new Date(po.date);
+      const diffTime = Math.abs(baseDate - poDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const remaining = po.totalValue - po.invoicedValue;
+      if (diffDays <= 30) {
+        brackets[0] += remaining;
+      } else if (diffDays <= 60) {
+        brackets[1] += remaining;
+      } else if (diffDays <= 90) {
+        brackets[2] += remaining;
+      } else {
+        brackets[3] += remaining;
+      }
+    });
+
     // A1. Aging Bar Chart
     setupChart('po-aging-chart', {
       type: 'bar',
       data: {
         labels: ['0-30 Days', '31-60 Days', '61-90 Days', '90+ Days'],
         datasets: [{
-          data: [620000, 315000, 185000, 95000],
+          data: brackets,
           backgroundColor: [colors.primary, colors.secondary, colors.purple, colors.warning],
           borderRadius: 6
         }]
@@ -840,13 +915,41 @@ function renderCharts() {
       }
     });
 
+    // Calculate vendor commitments allocation
+    const vendorCommitments = {};
+    pos.forEach(po => {
+      const remaining = po.totalValue - po.invoicedValue;
+      vendorCommitments[po.vendor] = (vendorCommitments[po.vendor] || 0) + remaining;
+    });
+    
+    const sortedVendors = Object.entries(vendorCommitments)
+      .sort((a, b) => b[1] - a[1]);
+    
+    const topLabels = [];
+    const topValues = [];
+    let othersSum = 0;
+    
+    sortedVendors.forEach(([vendor, val], idx) => {
+      if (idx < 4) {
+        topLabels.push(vendor.length > 12 ? vendor.substring(0, 12) + '...' : vendor);
+        topValues.push(val);
+      } else {
+        othersSum += val;
+      }
+    });
+    
+    if (sortedVendors.length > 4 && othersSum > 0) {
+      topLabels.push('Others');
+      topValues.push(othersSum);
+    }
+
     // A2. Vendor Commitment pie/donut
     setupChart('po-vendor-chart', {
       type: 'doughnut',
       data: {
-        labels: ['Vertex Solutions', 'Starlight Ind.', 'Titan Eng.', 'Apex Software', 'Others'],
+        labels: topLabels.length > 0 ? topLabels : ['No Commitments'],
         datasets: [{
-          data: [420000, 150000, 310000, 125000, 125800],
+          data: topValues.length > 0 ? topValues : [0],
           backgroundColor: [colors.secondary, colors.primary, colors.purple, colors.warning, '#475569'],
           borderWidth: 2,
           borderColor: colors.cardBg
@@ -866,71 +969,12 @@ function renderCharts() {
     });
   }
 
-  // B. PO VS NON-PO CHART
-  if (STATE.activeTab === 'page-po-vs-non-po') {
-    // B1. Spend Ratio Donut
-    setupChart('compliance-pie-chart', {
-      type: 'doughnut',
-      data: {
-        labels: ['PO Invoice Spend', 'Non-PO Spend'],
-        datasets: [{
-          data: [842000, 231500],
-          backgroundColor: [colors.primary, colors.warning],
-          borderWidth: 2,
-          borderColor: colors.cardBg
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: { color: colors.text, boxWidth: 12 }
-          }
-        }
-      }
-    });
 
-    // B2. Historic trend bar chart
-    setupChart('compliance-trend-chart', {
-      type: 'bar',
-      data: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        datasets: [
-          {
-            label: 'PO Invoices',
-            data: [42, 48, 52, 46],
-            backgroundColor: colors.primary,
-            borderRadius: 4
-          },
-          {
-            label: 'Non-PO Invoices',
-            data: [15, 12, 10, 15],
-            backgroundColor: colors.warning,
-            borderRadius: 4
-          }
-        ]
-      },
-      options: {
-        ...chartOptionsBase,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { color: colors.text, boxWidth: 12 }
-          }
-        }
-      }
-    });
-  }
 
   // C. DAILY LOG CHARTS
   if (STATE.activeTab === 'page-daily-log') {
-    // Calculate processors counts
     const processorCounts = {};
-    STATE.dailyLog.forEach(l => {
+    logs.forEach(l => {
       processorCounts[l.processor] = (processorCounts[l.processor] || 0) + 1;
     });
 
@@ -941,9 +985,9 @@ function renderCharts() {
     setupChart('processor-workload-chart', {
       type: 'bar',
       data: {
-        labels: analysts,
+        labels: analysts.length > 0 ? analysts : ['No Workload'],
         datasets: [{
-          data: analystCounts,
+          data: analystCounts.length > 0 ? analystCounts : [0],
           backgroundColor: colors.purple,
           borderRadius: 6
         }]
@@ -967,17 +1011,17 @@ function renderCharts() {
 
   // D. COA PROCESSING REPORT CHARTS
   if (STATE.activeTab === 'page-coa-wise') {
-    const codes = STATE.coaAccounts.map(c => c.code);
-    const spends = STATE.coaAccounts.map(c => c.spend);
-    const budgets = STATE.coaAccounts.map(c => c.budget);
+    const codes = coas.map(c => c.code);
+    const spends = coas.map(c => c.spend);
+    const budgets = coas.map(c => c.budget);
 
     // D1. Expense distribution
     setupChart('coa-expense-chart', {
       type: 'doughnut',
       data: {
-        labels: STATE.coaAccounts.map(c => `${c.code} - ${c.name.split(' ')[0]}`),
+        labels: coas.map(c => `${c.code} - ${c.name.split(' ')[0]}`),
         datasets: [{
-          data: spends,
+          data: spends.length > 0 ? spends : [0],
           backgroundColor: [
             colors.primary, 
             colors.secondary, 
@@ -1055,7 +1099,7 @@ function renderCharts() {
 
 function init() {
   updateOpenPoDashboard();
-  updateComplianceDashboard();
+
   updateDailyLogDashboard();
   updateCoaDashboard();
   renderCharts();
@@ -1140,7 +1184,7 @@ window.downloadTemplate = function(type) {
            s: ['PO-2026-0055','Your Vendor Ltd','2026-06-04','2026-07-15','500000','0','open'],
            f: 'Template_PurchaseOrders.csv' },
     log: { h: ['date','timestamp','invoiceId','vendor','amount','poRef','processor','matchStatus','status'],
-           s: ['2026-06-04','09:00 AM','INV-00001','Vendor Name','75000','PO-2026-0042','Zojaja','pass','approved'],
+           s: ['2026-06-04','09:00 AM','INV-00001','Vendor Name','75000','PO-2026-0042','Finance Executive 1','pass','approved'],
            f: 'Template_DailyLog.csv' },
     coa: { h: ['code','name','category','spend','budget'],
            s: ['6800','New Expense Account','indirect','0','100000'],
@@ -1241,48 +1285,18 @@ document.getElementById('add-po-form').addEventListener('submit', e => {
   const deliveryDate = document.getElementById('apo-delivery').value;
   const totalValue   = parseFloat(document.getElementById('apo-value').value);
   const status       = document.getElementById('apo-status').value;
+  const companyCode  = document.getElementById('apo-company').value;
   if (STATE.purchaseOrders.find(p => p.poNumber === poNumber)) {
     showToast(`PO ${poNumber} already exists.`, 'warning'); return;
   }
-  STATE.purchaseOrders.unshift({ poNumber, vendor, date, deliveryDate, totalValue, invoicedValue: 0, status });
-  saveState(); updateOpenPoDashboard(); renderCharts();
+  STATE.purchaseOrders.unshift({ poNumber, vendor, date, deliveryDate, totalValue, invoicedValue: 0, status, companyCode });
+  saveState(); refreshAll();
   document.getElementById('add-po-modal-overlay').classList.remove('active');
   showToast(`✅ PO ${poNumber} — ${vendor} added successfully!`);
 });
 
 
-/* =========================================================================
-   FEATURE D: ADD TO NON-PO QUEUE MODAL
-   ========================================================================= */
 
-document.getElementById('open-add-npo-modal-btn').addEventListener('click', () => {
-  document.getElementById('add-npo-form').reset();
-  document.getElementById('anpo-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('anpo-coa').innerHTML = STATE.coaAccounts
-    .map(c => `<option value="${c.code}">${c.code} — ${c.name}</option>`).join('');
-  document.getElementById('add-npo-modal-overlay').classList.add('active');
-  feather.replace();
-});
-
-['close-add-npo-modal-btn','cancel-add-npo-btn'].forEach(id =>
-  document.getElementById(id).addEventListener('click', () =>
-    document.getElementById('add-npo-modal-overlay').classList.remove('active')));
-
-document.getElementById('add-npo-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const id         = document.getElementById('anpo-id').value.trim();
-  const vendor     = document.getElementById('anpo-vendor').value.trim();
-  const amount     = parseFloat(document.getElementById('anpo-amount').value);
-  const date       = document.getElementById('anpo-date').value;
-  const defaultCoa = document.getElementById('anpo-coa').value;
-  if (STATE.nonPoQueue.find(n => n.id === id)) {
-    showToast(`Invoice ${id} already in queue.`, 'warning'); return;
-  }
-  STATE.nonPoQueue.push({ id, vendor, amount, date, defaultCoa });
-  saveState(); updateComplianceDashboard();
-  document.getElementById('add-npo-modal-overlay').classList.remove('active');
-  showToast(`✅ Non-PO invoice ${id} added to coding queue!`);
-});
 
 
 /* =========================================================================
@@ -1321,7 +1335,7 @@ document.getElementById('dl-template-btn').addEventListener('click', () => {
 
 function refreshAll() {
   updateOpenPoDashboard();
-  updateComplianceDashboard();
+
   updateDailyLogDashboard();
   updateCoaDashboard();
   renderCharts();
@@ -1478,32 +1492,36 @@ function syncFromGoogleSheets() {
     let updated = 0;
 
     if (data.purchaseOrders?.length) {
-      STATE.purchaseOrders = data.purchaseOrders.map(r => ({
+      STATE.purchaseOrders = data.purchaseOrders.map((r, idx) => ({
         ...r,
         totalValue:    parseFloat(r.totalValue)    || 0,
-        invoicedValue: parseFloat(r.invoicedValue) || 0
+        invoicedValue: parseFloat(r.invoicedValue) || 0,
+        companyCode:   r.companyCode || (['IM-01', 'IM-02', 'IM-03'][idx % 3])
       }));
       updated++;
     }
     if (data.dailyLog?.length) {
-      STATE.dailyLog = data.dailyLog.map(r => ({
+      STATE.dailyLog = data.dailyLog.map((r, idx) => ({
         ...r,
-        amount: parseFloat(r.amount) || 0
+        amount: parseFloat(r.amount) || 0,
+        companyCode: r.companyCode || (['IM-01', 'IM-02', 'IM-03'][idx % 3])
       }));
       updated++;
     }
     if (Array.isArray(data.nonPoQueue)) {
-      STATE.nonPoQueue = data.nonPoQueue.map(r => ({
+      STATE.nonPoQueue = data.nonPoQueue.map((r, idx) => ({
         ...r,
-        amount: parseFloat(r.amount) || 0
+        amount: parseFloat(r.amount) || 0,
+        companyCode: r.companyCode || (['IM-01', 'IM-02', 'IM-03'][idx % 3])
       }));
       updated++;
     }
     if (data.coaAccounts?.length) {
-      STATE.coaAccounts = data.coaAccounts.map(r => ({
+      STATE.coaAccounts = data.coaAccounts.map((r, idx) => ({
         ...r,
         spend:  parseFloat(r.spend)  || 0,
-        budget: parseFloat(r.budget) || 0
+        budget: parseFloat(r.budget) || 0,
+        companyCode: r.companyCode || (['IM-01', 'IM-02', 'IM-03'][idx % 3])
       }));
       updated++;
     }
