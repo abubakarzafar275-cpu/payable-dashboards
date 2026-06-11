@@ -594,9 +594,15 @@ function updateDailyLogDashboard() {
   const searchVal = DOM.logSearch.value.toLowerCase();
   const filterVal = DOM.logStatusFilter.value;
 
-  // Metrics
-  const processedToday = logs.filter(l => l.status === 'approved').length;
-  const onHoldToday = logs.filter(l => l.status === 'duplicate hold').length;
+  // Metrics — case-insensitive status matching
+  const processedToday = logs.filter(l => {
+    const s = (l.status || '').toLowerCase().trim();
+    return s !== 'duplicate hold' && s !== 'hold' && s !== 'on hold' && s !== 'rejected';
+  }).length;
+  const onHoldToday = logs.filter(l => {
+    const s = (l.status || '').toLowerCase().trim();
+    return s === 'duplicate hold' || s === 'hold' || s === 'on hold';
+  }).length;
   const totalCount = logs.length;
 
   DOM.logKpiProcessed.textContent = processedToday;
@@ -606,7 +612,7 @@ function updateDailyLogDashboard() {
   // Apply local toolbar filters
   const filteredLogs = logs.filter(log => {
     const matchesSearch = log.invoiceId.toLowerCase().includes(searchVal) || log.vendor.toLowerCase().includes(searchVal);
-    const matchesFilter = filterVal === 'all' || log.status === filterVal;
+    const matchesFilter = filterVal === 'all' || (log.status || '').toLowerCase().trim() === filterVal;
     return matchesSearch && matchesFilter;
   });
 
@@ -1504,6 +1510,8 @@ function syncFromGoogleSheets() {
       STATE.dailyLog = data.dailyLog.map((r, idx) => ({
         ...r,
         amount: parseFloat(r.amount) || 0,
+        status: (r.status || 'approved').toLowerCase().trim(),
+        matchStatus: (r.matchStatus || 'na').toLowerCase().trim(),
         companyCode: r.companyCode || (['IM-01', 'IM-02', 'IM-03'][idx % 3])
       }));
       updated++;
