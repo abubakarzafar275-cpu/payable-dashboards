@@ -553,35 +553,26 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
 }
 
-.hero-card:hover { opacity: 0.94; }
+.hero-card:hover { opacity: 0.96; }
 
-/* Decorative gold shimmer overlay — subtle diagonal line */
+/* Subtle corner glow only — no diagonal shimmer */
 .hero-card::before {
   content: '';
   position: absolute;
-  top: -80%;
-  right: -10%;
-  width: 40%;
-  height: 260%;
-  background: linear-gradient(135deg, transparent 44%, rgba(201,168,80,0.03) 48%, rgba(201,168,80,0.06) 50%, rgba(201,168,80,0.03) 52%, transparent 56%);
-  transform: rotate(-20deg);
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 100% 0%, rgba(201,168,80,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .hero-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: var(--radius);
-  background: radial-gradient(ellipse at 95% 20%, rgba(201,168,80,0.04) 0%, transparent 50%);
-  pointer-events: none;
+  content: none;
 }
 
 .hero-lbl {
@@ -1822,18 +1813,39 @@ input[type="date"].select-filter { color-scheme: dark; }
 
   /* ── Hero card mobile ── */
   .hero-card {
-    padding: 20px 18px;
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 16px 16px;
+    padding-right: 56px; /* space for absolute icon */
   }
 
   .hero-val {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    word-break: break-all;
+  }
+
+  .hero-lbl {
+    font-size: 0.65rem;
+  }
+
+  .hero-sub {
+    font-size: 0.7rem;
+  }
+
+  .hero-sub span {
+    display: inline;
+    word-break: break-word;
   }
 
   .hero-icon {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
+    top: 14px;
+    right: 12px;
+    border-radius: 8px;
+  }
+
+  .hero-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   /* ── Flat KPI grid ── */
